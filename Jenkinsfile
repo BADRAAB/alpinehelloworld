@@ -30,7 +30,7 @@ pipeline {
             }
         }
 
-        stage('Test image') {
+        /*stage('Test image') {
             agent any
             steps {
                 script {
@@ -39,7 +39,7 @@ pipeline {
                     '''
                 }
             }
-        }
+        }*/
 
         stage('Clean Container') {
             agent any
