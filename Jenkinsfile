@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker run --name $IMAGE_NAME -d -p 50001:5000 pedro1993/$IMAGE_NAME:$IMAGE_TAG
+                        docker run --name alpine_cont -d -p 50001:5000 pedro1993/$IMAGE_NAME:$IMAGE_TAG
                         sleep 5
                     '''
                 }
@@ -63,7 +63,7 @@ pipeline {
                                 docker pull pedro1993/$IMAGE_NAME:$IMAGE_TAG
                                 docker stop $IMAGE_NAME || true
                                 docker rm $IMAGE_NAME || true
-                                docker run --name $IMAGE_NAME -d -p 50001:5000 pedro1993/$IMAGE_NAME:$IMAGE_TAG
+                                docker run --name alpine_cont -d -p 50001:5000 pedro1993/$IMAGE_NAME:$IMAGE_TAG
                             ENDSSH
                         '''
                     }
