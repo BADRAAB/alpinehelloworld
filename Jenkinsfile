@@ -35,7 +35,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        curl -s http://localhost:50001 | grep -q "Hello world!"
+                        curl -s http://alpine_cont:50001 | grep -q "Hello world!"
                     '''
                 }
             }
