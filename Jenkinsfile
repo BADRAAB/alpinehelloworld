@@ -30,16 +30,16 @@ pipeline {
             }
         }
 
-        /*stage('Test image') {
+        stage('Test image') {
             agent any
             steps {
                 script {
                     sh '''
-                        curl -s http://alpine_cont:50001 | grep -q "Hello world!"
+                        curl -s http://52.49.62.165:50001 | grep -q "Hello world!"
                     '''
                 }
             }
-        }*/
+        }
 
         stage('Clean Container') {
             agent any
