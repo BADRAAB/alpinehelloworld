@@ -46,8 +46,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker stop $IMAGE_NAME || true
-                        docker rm $IMAGE_NAME || true
+                        docker stop alpine_cont || true
+                        docker rm  alpine_cont || true
                     '''
                 }
             }
