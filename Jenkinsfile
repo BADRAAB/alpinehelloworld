@@ -5,7 +5,7 @@ pipeline {
         IMAGE_NAME = "alpinehelloworld"
         IMAGE_TAG = "latest"
         EC2_SSH_CREDENTIALS = 'ssh_key_ec2'  // ID de tes identifiants SSH dans Jenkins
-        EC2_HOST = '54.247.23.243' 
+        EC2_HOST = '63.35.188.224' 
     }
 
     stages {
