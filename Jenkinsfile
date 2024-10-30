@@ -64,21 +64,23 @@ stage('Test image') {
             }
 
          stage('Deploy to AWS EC2') {
-           
-            steps {
-                script {
-                    sshagent([EC2_SSH_CREDENTIALS]) {
-                        sh '''
-                            ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST << 'ENDSSH'
-                                docker pull pedro1993/$IMAGE_NAME:$IMAGE_TAG
-                                docker stop alpine_cont || true
-                                docker rm alpine_cont || true
-                                docker run --name alpine_cont -d -p 50001:5000 pedro1993/$IMAGE_NAME:$IMAGE_TAG
-                            ENDSSH
-                        '''
-                    }
-                }
-            }
+           steps {
+    script {
+        sshagent([EC2_SSH_CREDENTIALS]) {
+            sh '''
+                ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST << 'ENDSSH'
+                    docker pull pedro1993/$IMAGE_NAME:$IMAGE_TAG
+                    if [ "$(docker ps -a -q -f name=alpine_cont)" ]; then
+                        docker stop alpine_cont || true
+                        docker rm alpine_cont || true
+                    fi
+                    docker run --name alpine_cont -d -p 50001:5000 pedro1993/$IMAGE_NAME:$IMAGE_TAG
+                ENDSSH
+            '''
+        }
+    }
+}
+
         }
     
        
