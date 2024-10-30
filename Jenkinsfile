@@ -27,7 +27,16 @@ pipeline {
                 }
             }
         }
-
+stage('Test image') {
+            agent any
+            steps {
+                script {
+                    sh '''
+                        curl -s http://52.49.62.165:50001 | grep -q "Hello world!"
+                    '''
+                }
+            }
+        }
  
     
        
