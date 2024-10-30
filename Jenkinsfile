@@ -4,6 +4,8 @@ pipeline {
     environment {
         IMAGE_NAME = "alpinehelloworld"
         IMAGE_TAG = "latest"
+        EC2_SSH_CREDENTIALS = 'SSH'  
+        EC2_HOST = '63.35.188.224' 
     }
 
     stages {
@@ -60,6 +62,24 @@ stage('Test image') {
                 }
             }
             }
+
+         stage('Deploy to AWS EC2') {
+           
+            steps {
+                script {
+                    sshagent([EC2_SSH_CREDENTIALS]) {
+                        sh '''
+                            ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST << 'ENDSSH'
+                                docker pull pedro1993/$IMAGE_NAME:$IMAGE_TAG
+                                docker stop alpine_cont || true
+                                docker rm alpine_cont || true
+                                docker run --name alpine_cont -d -p 50001:5000 pedro1993/$IMAGE_NAME:$IMAGE_TAG
+                            ENDSSH
+                        '''
+                    }
+                }
+            }
+        }
     
        
     }
