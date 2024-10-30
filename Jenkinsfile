@@ -48,6 +48,18 @@ stage('Test image') {
                 }
             }
         }
+
+        stage('Push') {
+            steps {
+                script {
+                    
+                       withCredentials([usernamePassword(credentialsId: 'DOCKERHUB', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh "docker login -u $USERNAME -p $PASSWORD"
+                        sh "docker push pedro1993/$IMAGE_NAME:$IMAGE_TAG"
+                    }
+                }
+            }
+            }
     
        
     }
