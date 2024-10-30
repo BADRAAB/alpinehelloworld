@@ -37,7 +37,17 @@ stage('Test image') {
                 }
             }
         }
- 
+  stage('Clean Container') {
+            agent any
+            steps {
+                script {
+                    sh '''
+                        docker stop alpine_cont || true
+                        docker rm  alpine_cont || true
+                    '''
+                }
+            }
+        }
     
        
     }
