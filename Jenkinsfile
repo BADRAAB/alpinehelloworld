@@ -69,18 +69,26 @@ stage('Deploy to AWS EC2') {
             sshagent([EC2_SSH_CREDENTIALS]) {
                 sh '''
                     ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST <<EOF
+                    echo "Pulling the latest image from Docker Hub..."
                     docker pull pedro1993/$IMAGE_NAME:$IMAGE_TAG
-                    if [ "$(docker ps -a -q -f name=alpine_cont)" ]; then
-                        docker stop alpine_cont 
-                        docker rm alpine_cont 
+
+                    echo "Checking for existing container..."
+                    if [ "$(docker ps -aq -f name=alpine_cont)" ]; then
+                        echo "Stopping and removing existing container..."
+                        docker stop alpine_cont || true
+                        docker rm alpine_cont || true
                     fi
+
+                    echo "Starting a new container..."
                     docker run --name alpine_cont -d -p 50001:5000 pedro1993/$IMAGE_NAME:$IMAGE_TAG
+                    echo "Deployment complete!"
                     EOF
                 '''
             }
         }
     }
 }
+
 
     
        
