@@ -84,7 +84,7 @@ stage('Deploy to AWS EC2') {
                     echo "Deployment complete!"
                     EOF
                 '''
-            }
+             }
         }
     }
 }
